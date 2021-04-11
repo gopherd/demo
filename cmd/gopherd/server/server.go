@@ -6,15 +6,15 @@ import (
 	"github.com/gopherd/doge/component"
 	"github.com/gopherd/doge/service"
 
-	"github.com/gopherd/demo/cmd/gopherd/config"
 	"github.com/gopherd/demo/cmd/gopherd/module"
 	"github.com/gopherd/demo/cmd/gopherd/module/bar"
 	"github.com/gopherd/demo/cmd/gopherd/module/foo"
+	"github.com/gopherd/demo/pkg/config"
 )
 
 type server struct {
 	*service.BaseApplication
-	config *config.Config
+	config *config.GopherdConfig
 
 	quit, wait chan struct{}
 
@@ -31,7 +31,7 @@ type server struct {
 func New() service.Application {
 	s := &server{
 		BaseApplication: service.NewBaseApplication(),
-		config:          config.NewConfig(),
+		config:          config.NewGopherdConfig(),
 		quit:            make(chan struct{}),
 		wait:            make(chan struct{}),
 	}
