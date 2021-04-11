@@ -1,0 +1,11 @@
+*.swo
+*.swp
+~*
+.DS_Store
+.vs/
+.vscode/
+.idea/
+
+# ignore built files
+/build/
+/cmd/gopherd/gopherd*
