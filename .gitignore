@@ -8,4 +8,5 @@
 
 # ignore built files
 /build/
-/cmd/gopherd/gopherd*
+/cmd/ram/ram*
+/cmd/rem/rem*

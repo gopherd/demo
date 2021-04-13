@@ -1,7 +1,7 @@
 package module
 
 import (
-	"github.com/gopherd/demo/cmd/gopherd/entity"
+	"github.com/gopherd/demo/cmd/ram/entity"
 )
 
 // Service represents a gopherd service

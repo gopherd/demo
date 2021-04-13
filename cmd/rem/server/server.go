@@ -6,9 +6,9 @@ import (
 	"github.com/gopherd/doge/component"
 	"github.com/gopherd/doge/service"
 
-	"github.com/gopherd/demo/cmd/gopherd/module"
-	"github.com/gopherd/demo/cmd/gopherd/module/bar"
-	"github.com/gopherd/demo/cmd/gopherd/module/foo"
+	"github.com/gopherd/demo/cmd/rem/module"
+	"github.com/gopherd/demo/cmd/rem/module/hammer"
+	"github.com/gopherd/demo/cmd/rem/module/horn"
 	"github.com/gopherd/demo/pkg/config"
 )
 
@@ -21,8 +21,8 @@ type server struct {
 	// components list all components of gopherd
 	components struct {
 		manager *component.Manager
-		foo     foo.Component
-		bar     bar.Component
+		hammer  hammer.Component
+		horn    horn.Component
 		// more...
 	}
 }
@@ -38,8 +38,8 @@ func New() service.Application {
 	s.BaseApplication.SetConfigurator(s.config)
 
 	s.components.manager = component.NewManager()
-	s.components.foo = s.components.manager.Add(foo.NewComponent(s)).(foo.Component)
-	s.components.bar = s.components.manager.Add(bar.NewComponent(s)).(bar.Component)
+	s.components.hammer = s.components.manager.Add(hammer.NewComponent(s)).(hammer.Component)
+	s.components.horn = s.components.manager.Add(horn.NewComponent(s)).(horn.Component)
 
 	return s
 }
@@ -89,5 +89,5 @@ func (s *server) onUpdate(now time.Time, dt time.Duration) {
 
 // implements interface module.Service
 
-func (s *server) GetFooComponent() module.FooComponent { return s.components.foo }
-func (s *server) GetBarComponent() module.BarComponent { return s.components.bar }
+func (s *server) GetHammerComponent() module.HammerComponent { return s.components.hammer }
+func (s *server) GetHornComponent() module.HornComponent     { return s.components.horn }

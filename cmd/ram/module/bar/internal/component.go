@@ -3,8 +3,8 @@ package internal
 import (
 	"github.com/gopherd/doge/component"
 
-	"github.com/gopherd/demo/cmd/gopherd/entity"
-	"github.com/gopherd/demo/cmd/gopherd/module"
+	"github.com/gopherd/demo/cmd/ram/entity"
+	"github.com/gopherd/demo/cmd/ram/module"
 )
 
 // barComponent implements bar.Component

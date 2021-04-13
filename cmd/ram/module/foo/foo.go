@@ -3,8 +3,8 @@ package foo
 import (
 	"github.com/gopherd/doge/component"
 
-	"github.com/gopherd/demo/cmd/gopherd/module"
-	"github.com/gopherd/demo/cmd/gopherd/module/foo/internal"
+	"github.com/gopherd/demo/cmd/ram/module"
+	"github.com/gopherd/demo/cmd/ram/module/foo/internal"
 )
 
 // Component is the interface that groups ther basic Component and FooComponent methods

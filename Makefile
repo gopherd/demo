@@ -6,12 +6,16 @@ TIME=$(shell date "+%H:%M:%S")
 GOBUILD=go build -ldflags "-X ${PKG}.branch=${BRANCH} -X ${PKG}.hash=${HASH} -X ${PKG}.date=${DATE} -X ${PKG}.time=${TIME}"
 BUILD = ./build
 
-all: gopherd
+all: ram rem
 
 init:
 	@mkdir -p ${BUILD}
 	@mkdir -p ${BUILD}/
 
-gopherd: init
-	@echo "Building gopherd"
-	@${GOBUILD} -o ${BUILD}/gopherd ./cmd/gopherd/
+ram: init
+	@echo "Building ram"
+	@${GOBUILD} -o ${BUILD}/ram ./cmd/ram/
+
+rem: init
+	@echo "Building rem"
+	@${GOBUILD} -o ${BUILD}/rem ./cmd/rem/
