@@ -14,7 +14,7 @@ import (
 
 type server struct {
 	*service.BaseApplication
-	config *config.GopherdConfig
+	config *config.RamConfig
 
 	quit, wait chan struct{}
 
@@ -31,7 +31,7 @@ type server struct {
 func New() service.Application {
 	s := &server{
 		BaseApplication: service.NewBaseApplication(),
-		config:          config.NewGopherdConfig(),
+		config:          config.NewRamConfig(),
 		quit:            make(chan struct{}),
 		wait:            make(chan struct{}),
 	}
