@@ -1,4 +1,4 @@
 pkg
 ---
 
-some common packges here
+some common packges and modules here
