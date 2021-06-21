@@ -3,7 +3,7 @@ package internal
 import (
 	"time"
 
-	"github.com/gopherd/doge/component"
+	"github.com/gopherd/doge/service/component"
 
 	"github.com/gopherd/demo/cmd/ram/entity"
 	"github.com/gopherd/demo/cmd/ram/module"

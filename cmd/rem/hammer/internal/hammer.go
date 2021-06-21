@@ -1,7 +1,7 @@
 package internal
 
 import (
-	"github.com/gopherd/doge/component"
+	"github.com/gopherd/doge/service/component"
 
 	"github.com/gopherd/demo/cmd/rem/module"
 )

@@ -7,6 +7,6 @@
 .idea/
 
 # ignore built files
-/build/
+/target/
 /cmd/ram/ram*
 /cmd/rem/rem*

@@ -6,9 +6,11 @@ import (
 
 // RamConfig represent config of ram service
 type RamConfig struct {
-	config.Config
+	config.BaseConfig
 }
 
 func NewRamConfig() *RamConfig {
-	return &RamConfig{}
+	cfg := &RamConfig{}
+	cfg.Core.ID = 1
+	return cfg
 }

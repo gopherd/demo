@@ -6,9 +6,11 @@ import (
 
 // RemConfig represent config of rem service
 type RemConfig struct {
-	config.Config
+	config.BaseConfig
 }
 
 func NewRemConfig() *RemConfig {
-	return &RemConfig{}
+	cfg := &RemConfig{}
+	cfg.Core.ID = 2
+	return cfg
 }

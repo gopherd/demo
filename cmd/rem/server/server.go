@@ -3,13 +3,12 @@ package server
 import (
 	"time"
 
-	"github.com/gopherd/doge/component"
 	"github.com/gopherd/doge/service"
 
+	"github.com/gopherd/demo/cmd/rem/hammer"
+	"github.com/gopherd/demo/cmd/rem/horn"
 	"github.com/gopherd/demo/cmd/rem/module"
-	"github.com/gopherd/demo/cmd/rem/module/hammer"
-	"github.com/gopherd/demo/cmd/rem/module/horn"
-	"github.com/gopherd/demo/pkg/config"
+	"github.com/gopherd/demo/config"
 )
 
 type server struct {
@@ -20,38 +19,35 @@ type server struct {
 
 	// components list all components of rem
 	components struct {
-		manager *component.Manager
-		hammer  hammer.Component
-		horn    horn.Component
+		hammer module.HammerComponent
+		horn   module.HornComponent
 		// more...
 	}
 }
 
 // New creates rem service
 func New() service.Service {
+	cfg := config.NewRemConfig()
 	s := &server{
-		BaseService: service.NewBaseService(),
-		config:      config.NewRemConfig(),
+		BaseService: service.NewBaseService(cfg),
 		quit:        make(chan struct{}),
 		wait:        make(chan struct{}),
 	}
-	s.BaseService.SetConfigurator(s.config)
 
-	s.components.manager = component.NewManager()
-	s.components.hammer = s.components.manager.Add(hammer.NewComponent(s)).(hammer.Component)
-	s.components.horn = s.components.manager.Add(horn.NewComponent(s)).(horn.Component)
+	s.components.hammer = s.BaseService.AddComponent(hammer.NewComponent(s)).(module.HammerComponent)
+	s.components.horn = s.BaseService.AddComponent(horn.NewComponent(s)).(module.HornComponent)
 
 	return s
 }
 
 // Init overrides BaseService Init method
 func (s *server) Init() error {
-	return s.components.manager.Init()
+	return s.BaseService.Init()
 }
 
 // Start overrides BaseService Start method
 func (s *server) Start() error {
-	s.components.manager.Start()
+	s.BaseService.Start()
 	go s.run()
 	return nil
 }
@@ -60,7 +56,7 @@ func (s *server) Start() error {
 func (s *server) Shutdown() error {
 	close(s.quit)
 	<-s.wait
-	s.components.manager.Shutdown()
+	s.BaseService.Shutdown()
 	return nil
 }
 
@@ -84,7 +80,7 @@ func (s *server) run() {
 }
 
 func (s *server) onUpdate(now time.Time, dt time.Duration) {
-	s.components.manager.Update(now, dt)
+	s.BaseService.Update(now, dt)
 }
 
 // implements interface module.Service

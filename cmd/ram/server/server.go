@@ -3,13 +3,12 @@ package server
 import (
 	"time"
 
-	"github.com/gopherd/doge/component"
 	"github.com/gopherd/doge/service"
 
+	"github.com/gopherd/demo/cmd/ram/bar"
+	"github.com/gopherd/demo/cmd/ram/foo"
 	"github.com/gopherd/demo/cmd/ram/module"
-	"github.com/gopherd/demo/cmd/ram/module/bar"
-	"github.com/gopherd/demo/cmd/ram/module/foo"
-	"github.com/gopherd/demo/pkg/config"
+	"github.com/gopherd/demo/config"
 )
 
 type server struct {
@@ -20,38 +19,35 @@ type server struct {
 
 	// components list all components of ram
 	components struct {
-		manager *component.Manager
-		foo     foo.Component
-		bar     bar.Component
+		foo module.FooComponent
+		bar module.BarComponent
 		// more...
 	}
 }
 
 // New creates ram service
 func New() service.Service {
+	cfg := config.NewRamConfig()
 	s := &server{
-		BaseService: service.NewBaseService(),
-		config:      config.NewRamConfig(),
+		BaseService: service.NewBaseService(cfg),
 		quit:        make(chan struct{}),
 		wait:        make(chan struct{}),
 	}
-	s.BaseService.SetConfigurator(s.config)
 
-	s.components.manager = component.NewManager()
-	s.components.foo = s.components.manager.Add(foo.NewComponent(s)).(foo.Component)
-	s.components.bar = s.components.manager.Add(bar.NewComponent(s)).(bar.Component)
+	s.components.foo = s.AddComponent(foo.NewComponent(s)).(module.FooComponent)
+	s.components.bar = s.AddComponent(bar.NewComponent(s)).(module.BarComponent)
 
 	return s
 }
 
 // Init overrides BaseService Init method
 func (s *server) Init() error {
-	return s.components.manager.Init()
+	return s.BaseService.Init()
 }
 
 // Start overrides BaseService Start method
 func (s *server) Start() error {
-	s.components.manager.Start()
+	s.BaseService.Start()
 	go s.run()
 	return nil
 }
@@ -60,7 +56,7 @@ func (s *server) Start() error {
 func (s *server) Shutdown() error {
 	close(s.quit)
 	<-s.wait
-	s.components.manager.Shutdown()
+	s.BaseService.Shutdown()
 	return nil
 }
 
@@ -84,7 +80,7 @@ func (s *server) run() {
 }
 
 func (s *server) onUpdate(now time.Time, dt time.Duration) {
-	s.components.manager.Update(now, dt)
+	s.BaseService.Update(now, dt)
 }
 
 // implements interface module.Service
